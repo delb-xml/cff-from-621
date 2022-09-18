@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "delb"
+version = "0.3.0"
+description = "A library that provides an ergonomic model for XML encoded text documents (e.g. with TEI-XML)."
+authors = [
+    {name = "Frank Sachsenheim"},
+    {email = "jkatzwinkel@noreply.github.ms"},
+    {name = "Iggy Pop", email = "josterberg@ann-arbor.punk"},
+]
+license = "AGPL-3.0"
+readme = "README.rst"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Natural Language :: English",
+    "Topic :: Text Processing :: Markup :: XML",
+]
+urls = {Documentation = "https://delb.readthedocs.io/"}
+keywords = ["xml", "markup", "text processing"]
+include = ["CITATION.cff", "_delb/py.typed", "delb/py.typed"]
+
+[tool.cff-from-621.static]
+contact = [{email = "delb-project@posteo.net", website = "https://github.com/delb-xml"}]
+date-released = "2022-09-18"
+message = "🔥🌍🔥"
+
+[tool.cff-from-621.template]
+repository-code = "https://github.com/delb-xml/delb-py/tree/{version}"

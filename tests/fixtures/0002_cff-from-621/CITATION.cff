@@ -1,0 +1,16 @@
+---
+message: 🔥🌍🔥
+cff-version: 1.2.0
+title: cff-from-621
+abstract: Generates metadata in the Citation File Format for Python projects from
+  their PEP-621 compliant package definition. Includes a CLI.
+version: 0.0.1
+date-released: '2022-09-18'
+authors:
+- name: Frank Sachsenheim
+keywords:
+- PEP-621
+- CFF
+- conversion
+type: software
+...

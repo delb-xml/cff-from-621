@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cff-from-621"
+description = "Generates metadata in the Citation File Format for Python projects from their PEP-621 compliant package definition. Includes a CLI."
+keywords = ["PEP-621", "CFF", "conversion"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Topic :: Software Development"
+]
+readme = "README.md"
+requires-python = ">=3.7"
+dependencies = [
+    "cffconvert ~= 2.0",
+    "PyYAML",
+    "tomli",
+]
+authors = [
+    {name = "Frank Sachsenheim"}
+]
+dynamic = ["version"]
+
+[project.scripts]
+cff-from-621 = "cff_from_621.cli:cli"
+
+[tool.cff-from-621]
+order = ["message", "cff-version", "title", "abstract", "version", "date-released", "authors", "keywords"]  # type is left out deliberately
+
+[tool.cff-from-621.static]
+date-released = "2022-09-18"
+message = "🔥🌍🔥"
+
+[tool.setuptools.dynamic]
+version = {attr = "cff_from_621.version.VERSION"}
