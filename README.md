@@ -2,7 +2,7 @@
 
 1. Clone the repository.
 
-## Installation
+## Installation & Usage
 
 2. `pipx install .`
 3. `cff-from-621 --help`
@@ -11,4 +11,4 @@
 
 2. Turn on a virtual environment.
 3. `pip install -e .[development]`
-4. `pytest -m pytest tests`
+4. `python -m pytest tests`
