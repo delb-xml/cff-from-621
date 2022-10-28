@@ -29,7 +29,6 @@ setuptool's dynamic field references are resolved.
 The contents of the resulting metadata is gathered in this order, where later stages
 override values from previous ones:
 
-- dynamic values
 - data mapped from the [project] table
 - fixed data from the table [tool.cff-from-621.static]
 - data generated from the templates in the [tool.cff-from-621.template] table
@@ -56,7 +55,7 @@ Program version: {VERSION}
         type=Path,
         metavar="FILE",
         default=Path.cwd() / "CITATION.cff",
-        help="Path to write to, defaults to CITATION.cff in the current directory.",
+        help="Destination file path, defaults to CITATION.cff in the current directory.",
     )
     parser.add_argument(
         "--source",
@@ -64,7 +63,7 @@ Program version: {VERSION}
         type=Path,
         metavar="FILE",
         default=Path.cwd() / "pyproject.toml",
-        help="Path to read from, defaults to pyproject.toml in the current directory.",
+        help="Source file path, defaults to pyproject.toml in the current directory.",
     )
 
     parser.add_argument(
@@ -73,7 +72,7 @@ Program version: {VERSION}
         type=int,
         metavar="INTEGER",
         default=79,
-        help="Maximum number of characters per line.",
+        help="Maximum number of characters per line in the resulting file.",
     )
 
     return parser.parse_args(args)
