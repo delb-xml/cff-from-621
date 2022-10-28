@@ -18,11 +18,11 @@ classifiers = [
     "Topic :: Software Development"
 ]
 readme = "README.md"
-requires-python = ">=3.7"
+requires-python = ">=3.10"
 dependencies = [
     "cffconvert ~= 2.0",
     "PyYAML",
-    "tomli",
+    "tomli; python_version < '3.11'",
 ]
 authors = [
     {name = "Frank Sachsenheim"}

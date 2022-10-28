@@ -80,13 +80,11 @@ Program version: {VERSION}
 
 
 def cli():
-    if sys.version_info < (3, 7):
-        log.error("This tool requires Python 3.7 or later.")
-        raise SystemExit(1)
-
-    exit_code = 0
-
     try:
+        if sys.version_info < (3, 10):
+            log.error("This tool requires Python 3.10 or later.")
+            raise SystemExit(1)
+
         args = parse_args(sys.argv[1:])
         if args.verbose:
             log.setLevel(logging.DEBUG)
@@ -102,6 +100,9 @@ def cli():
     except Exception:
         log.exception("Caught unhandled exception.")
         exit_code = 3
+
+    else:
+        exit_code = 0
 
     sys.exit(exit_code)
 

@@ -8,9 +8,13 @@ from pathlib import Path
 from typing import Any, Sequence
 
 import yaml
-import tomli as tomllib
 from cffconvert import Citation
 from jsonschema.exceptions import ValidationError
+
+try:
+    import tomllib
+except ImportError:
+    import tomli as tomllib
 
 CONSIDERED_PROJECT_FIELDS = frozenset(
     ("authors", "description", "keywords", "license", "title", "urls", "version")
@@ -44,14 +48,13 @@ def generate_cff_contents(pyproject_contents: dict, pyproject_path: Path) -> dic
         "cff-version": "1.2.0",
         "type": "software",
     }
-    result.update(map_621_to_cff(pyproject_contents["project"]))
+    result |= map_621_to_cff(pyproject_contents["project"])
 
     tool_tables = pyproject_contents.get("tool", {}).get("cff-from-621", {})
     order = tool_tables.pop("order", DEFAULT_FIELD_ORDER)
-    result.update(tool_tables.get("static", {}))
-    result.update(
-        render_templates(templates_table=tool_tables.get("template", {}), data=result)
-    )
+
+    result |= tool_tables.get("static", {})
+    result |= render_templates(templates_table=tool_tables.get("template", {}), data=result)
 
     if "date-released" not in result:
         result["date-released"] = date.today().isoformat()
@@ -170,5 +173,5 @@ def sorted_cff_contents(order: Sequence[str], data: dict) -> dict:
     result = {}
     for field in (x for x in order if x in data):
         result[field] = data.pop(field)
-    result.update(data)
+    result |= data
     return result
