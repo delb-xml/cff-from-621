@@ -81,6 +81,7 @@ def generate_cff_file(pyproject_path: Path, cff_path: Path, width: int):
         Citation(cffstr=cff_serialisat).validate()
     except ValidationError as e:
         logging.error(f"Validation error: {e.message}")
+        raise SystemExit(1)
     cff_path.write_text(data=cff_serialisat)
 
 
@@ -146,6 +147,9 @@ def resolve_dynamic_values(pyproject_contents: dict, pyproject_path: Path):
         resolve_dynamic_setuptools_values(
             pyproject_contents=pyproject_contents, pyproject_path=pyproject_path
         )
+    else:
+        log.error("Dynamic value resolution is not available for the used build backend.")
+        raise SystemExit(1)
 
 
 def retrieve_object(location: str) -> Any:
@@ -160,7 +164,8 @@ def retrieve_object(location: str) -> Any:
             member_path = token[i:]
             break
     else:
-        raise RuntimeError(f"Couldn't import module to reach {location}")
+        log.error(f"Couldn't import module to reach {location}")
+        raise SystemExit(1)
 
     obj = module
     for step in member_path:
