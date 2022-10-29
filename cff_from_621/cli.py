@@ -20,8 +20,8 @@ def parse_args(args: list[str]) -> Namespace:
         description=f"""
 Derives a citation file from the [project] table in a pyproject.toml.
 
-Additionally, fixed values can be defined in the table [tool.cff-from-621.static] and 
-the string values in [tool.cff-from-621.template] are formatted with Python's 
+Additionally, fixed values can be defined in the table [tool.cff-from-621.static] and
+the string values in [tool.cff-from-621.template] are formatted with Python's
 str.format() while all available data is passed as source mapping for extrapolation.
 
 setuptool's dynamic field references are resolved.
@@ -55,7 +55,8 @@ Program version: {VERSION}
         type=Path,
         metavar="FILE",
         default=Path.cwd() / "CITATION.cff",
-        help="Destination file path, defaults to CITATION.cff in the current directory.",
+        help="Destination file path, defaults to CITATION.cff in the current "
+        "directory.",
     )
     parser.add_argument(
         "--source",

@@ -32,6 +32,7 @@ dynamic = ["version"]
 [project.optional-dependencies]
 development = [
     "build",
+    "flake8-black",
     "pytest"
 ]
 

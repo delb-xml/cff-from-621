@@ -54,7 +54,9 @@ def generate_cff_contents(pyproject_contents: dict, pyproject_path: Path) -> dic
     order = tool_tables.pop("order", DEFAULT_FIELD_ORDER)
 
     result |= tool_tables.get("static", {})
-    result |= render_templates(templates_table=tool_tables.get("template", {}), data=result)
+    result |= render_templates(
+        templates_table=tool_tables.get("template", {}), data=result
+    )
 
     if "date-released" not in result:
         result["date-released"] = date.today().isoformat()
@@ -148,7 +150,9 @@ def resolve_dynamic_values(pyproject_contents: dict, pyproject_path: Path):
             pyproject_contents=pyproject_contents, pyproject_path=pyproject_path
         )
     else:
-        log.error("Dynamic value resolution is not available for the used build backend.")
+        log.error(
+            "Dynamic value resolution is not available for the used build backend."
+        )
         raise SystemExit(1)
 
 
