@@ -56,6 +56,7 @@ Program version: {VERSION}
         help="Destination file path, defaults to CITATION.cff in the current "
         "directory.",
     )
+
     parser.add_argument(
         "--source",
         nargs="?",

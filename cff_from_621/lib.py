@@ -38,20 +38,17 @@ log = logging.getLogger("cff_from_621")
 
 
 def generate_cff_contents(pyproject_contents: dict, pyproject_path: Path) -> dict:
+    tool_tables = pyproject_contents.get("tool", {}).get("cff-from-621", {})
+    order = tool_tables.pop("order", DEFAULT_FIELD_ORDER)
     resolve_dynamic_values(
         pyproject_contents=pyproject_contents, pyproject_path=pyproject_path
     )
 
-    result = {
-        "cff-version": "1.2.0",
-        "type": "software",
-    }
-    result |= map_621_to_cff(pyproject_contents["project"])
-
-    tool_tables = pyproject_contents.get("tool", {}).get("cff-from-621", {})
-    order = tool_tables.pop("order", DEFAULT_FIELD_ORDER)
-
-    result |= tool_tables.get("static", {})
+    result = (
+        {"cff-version": "1.2.0", "type": "software"}
+        | map_621_to_cff(pyproject_contents["project"])
+        | tool_tables.get("static", {})
+    )
     result |= render_templates(
         templates_table=tool_tables.get("template", {}), data=result
     )
@@ -125,20 +122,25 @@ def resolve_dynamic_setuptools_values(pyproject_contents: dict, pyproject_path: 
     project_table = pyproject_contents["project"]
     references_table = pyproject_contents["tool"]["setuptools"]["dynamic"]
 
-    for field in (
-        x for x in project_table["dynamic"] if x in CONSIDERED_PROJECT_FIELDS
+    for field, reference in (
+        (x, references_table[x])
+        for x in project_table["dynamic"]
+        if x in CONSIDERED_PROJECT_FIELDS
     ):
-        reference = references_table[field]
         if "file" in reference:
-            value = (pyproject_path.parent / reference["file"]).read_text()
+            project_table[field] = (
+                pyproject_path.parent / reference["file"]
+            ).read_text()
+        elif "attr" in reference:
+            project_table[field] = retrieve_object(reference["attr"])
         else:
-            value = retrieve_object(reference["attr"])
-        project_table[field] = value
+            log.error(f"Unknown reference type for field `{field}`.")
+            raise SystemExit(1)
 
 
 def resolve_dynamic_values(pyproject_contents: dict, pyproject_path: Path):
-    if (
-        not set(pyproject_contents["project"].get("dynamic", ()))
+    if not (
+        set(pyproject_contents["project"].get("dynamic", ()))
         & CONSIDERED_PROJECT_FIELDS
     ):
         return
@@ -155,23 +157,23 @@ def resolve_dynamic_values(pyproject_contents: dict, pyproject_path: Path):
 
 
 def retrieve_object(location: str) -> Any:
-    token = location.split(".")
+    names = location.split(".")
 
-    for i in range(len(token) - 1, 1, -1):
+    for i in range(len(names) - 1, 1, -1):
         try:
-            module = import_module(".".join(token[:i]))
+            module = import_module(".".join(names[:i]))
         except ImportError:
             pass
         else:
-            member_path = token[i:]
+            member_path = names[i:]
             break
     else:
         log.error(f"Couldn't import module to reach {location}")
         raise SystemExit(1)
 
     obj = module
-    for step in member_path:
-        obj = getattr(obj, step)
+    for name in member_path:
+        obj = getattr(obj, name)
 
     return obj
 
@@ -180,5 +182,4 @@ def sorted_cff_contents(order: Sequence[str], data: dict) -> dict:
     result = {}
     for field in (x for x in order if x in data):
         result[field] = data.pop(field)
-    result |= data
-    return result
+    return result | data
