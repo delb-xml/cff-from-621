@@ -6,8 +6,9 @@ version: 0.3.0
 date-released: '2022-09-18'
 authors:
 - name: Frank Sachsenheim
-- name: jkatzwinkel@noreply.github.ms
+- email: jkatzwinkel@noreply.github.ms
 - name: Iggy Pop
+  email: josterberg@ann-arbor.punk
 license: AGPL-3.0
 message: 🔥🌍🔥
 abstract: A library that provides an ergonomic model for XML encoded text documents

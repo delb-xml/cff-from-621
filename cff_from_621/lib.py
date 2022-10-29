@@ -85,12 +85,27 @@ def generate_cff_file(pyproject_path: Path, cff_path: Path, width: int):
 def map_621_to_cff(data: dict) -> dict:
     result = {"title": data["name"], "version": data["version"]}
 
-    result["authors"] = authors = []
-    for author_object in chain(data.get("authors", ()), data.get("maintainers", ())):
-        if "name" in author_object:
-            authors.append({"name": author_object["name"]})
-        else:
-            authors.append({"name": author_object["email"]})
+    authors_cff = {}
+    for author_621 in chain(data.get("authors", ()), data.get("maintainers", ())):
+        author_cff = {}
+        key = None
+        if "name" in author_621:
+            key = author_621["name"]
+            author_cff["name"] = key
+
+        if "email" in author_621:
+            if key is None:
+                author_cff["email"] = key = author_621["email"]
+            else:
+                author_cff["email"] = author_621["email"]
+
+        assert key is not None
+
+        if key not in authors_cff:
+            authors_cff[key] = author_cff
+
+    if authors_cff:
+        result["authors"] = list(authors_cff.values())
 
     for src, dst in (
         ("description", "abstract"),
