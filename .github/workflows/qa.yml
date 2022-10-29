@@ -1,0 +1,45 @@
+---
+
+name: qa
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+
+  integration-tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version:
+          - "3.10"  # 2026-10
+          - "3.11"  # 2027-10
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: sudo snap install --edge --classic just
+      - run: pip install .[development]
+      - run: just integration-tests
+
+  linting:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        recipe:
+          - lint
+          - mypy
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      - run: sudo snap install --edge --classic just
+      - run: pip install .[development]
+      - run: just ${{ matrix.recipe }}
+
+...
