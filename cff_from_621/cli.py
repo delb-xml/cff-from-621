@@ -7,6 +7,10 @@ from pathlib import Path
 from cff_from_621.lib import generate_cff_file
 from cff_from_621.version import VERSION
 
+B_ = "\033[1m"
+_B = "\033[22m"
+U_ = "\033[4m"
+_U = "\033[24m"
 
 log = logging.getLogger("cff_from_621")
 console_handler = logging.StreamHandler(sys.stderr)
@@ -16,23 +20,21 @@ log.addHandler(console_handler)
 def parse_args(args: list[str]) -> Namespace:
     parser = ArgumentParser(
         description=f"""
-Derives a citation file from the [project] table in a pyproject.toml.
+Derives a citation file from the {U_}[project]{_U} table in a `pyproject.toml`.
 
-Additionally, fixed values can be defined in the table [tool.cff-from-621.static] and
-the string values in [tool.cff-from-621.template] are formatted with Python's
-str.format() while all available data is passed as source mapping for extrapolation.
-
-setuptool's dynamic field references are resolved.
+Additionally, fixed values can be defined in the table {U_}[tool.cff-from-621.static]{_U}
+and the string values in {U_}[tool.cff-from-621.template]{_U} are formatted with Python's
+{B_}str.format(){_B} while all available data is passed as source mapping for extrapolation.
+{B_}setuptool's{_B} dynamic field references are resolved.
 
 The contents of the resulting metadata is gathered in this order, where later stages
 override values from previous ones:
-
-- data mapped from the [project] table
-- fixed data from the table [tool.cff-from-621.static]
-- data generated from the templates in the [tool.cff-from-621.template] table
+- data mapped from the {U_}[project]{_U} table
+- fixed data from the table {U_}[tool.cff-from-621.static]{_U}
+- data generated from the templates in the {U_}[tool.cff-from-621.template]{_U} table
 
 The order of fields can be defined in a list of field names provided for the key `order`
-in the table [tool.cff-from-621].
+in the table {U_}[tool.cff-from-621]{_U}.
 
 In doubt, mind these resources:
 - https://peps.python.org/pep-0621/
@@ -41,7 +43,7 @@ In doubt, mind these resources:
 - https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html#dynamic-metadata
 
 Program version: {VERSION}
-    """,
+    """,  # noqa: E501
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
 
@@ -72,7 +74,8 @@ Program version: {VERSION}
         type=int,
         metavar="INTEGER",
         default=79,
-        help="Maximum number of characters per line in the resulting file.",
+        help="Maximum number of characters per line in the resulting file, "
+        "defaults to 79.",
     )
 
     return parser.parse_args(args)

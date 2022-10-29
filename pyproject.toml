@@ -41,7 +41,10 @@ development = [
 [project.scripts]
 cff-from-621 = "cff_from_621.cli:cli"
 
-#[project.urls]
+[project.urls]
+Homepage = "https://pypi.org/project/cff-from-621/"
+Repository = "https://github.com/delb-xml/cff-from-621"
+"Issue tracker" = "https://github.com/delb-xml/cff-from-621/issues"
 
 [tool.setuptools.dynamic]
 version = {attr = "cff_from_621.version.VERSION"}
