@@ -2,7 +2,9 @@
 
 default: tests
 
+build_dir := "dist"
 python_src := "cff_from_621 tests"
+version := `cat cff_from_621/version.py | cut -d ' ' -f 3`
 
 # applies black code style
 black:
@@ -10,6 +12,7 @@ black:
 
 # builds source distribution and wheel
 build:
+  rm {{build_dir}}/*
   python -m build
 
 # runs integration tests
@@ -23,6 +26,14 @@ lint:
 # validates type hints with mypy
 mypy:
   python -m mypy {{python_src}}
+
+# creates and publishes a release
+release: tests build
+  twine check {{build_dir}}/*
+  git tag {{version}}
+  git push upstream main
+  git push upstream {{version}}
+  twine upload {{build_dir}}/*
 
 # runs all tests
 tests: lint mypy integration-tests
