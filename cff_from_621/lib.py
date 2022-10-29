@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 import logging
 from datetime import date
 from importlib import import_module
@@ -8,13 +6,13 @@ from pathlib import Path
 from typing import Any, Sequence
 
 import yaml
-from cffconvert import Citation
-from jsonschema.exceptions import ValidationError
+from cffconvert import Citation  # type: ignore
+from jsonschema.exceptions import ValidationError  # type: ignore
 
-try:
-    import tomllib
+try:  # DROPWITH Python3.9
+    import tomllib  # type: ignore
 except ImportError:
-    import tomli as tomllib
+    import tomli as tomllib  # type: ignore
 
 CONSIDERED_PROJECT_FIELDS = frozenset(
     ("authors", "description", "keywords", "license", "title", "urls", "version")

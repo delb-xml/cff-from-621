@@ -20,5 +20,9 @@ integration-tests:
 lint:
   python -m flake8 --max-line-length=88 {{python_src}}
 
+# validates type hints with mypy
+mypy:
+  python -m mypy {{python_src}}
+
 # runs all tests
-tests: lint integration-tests
+tests: lint mypy integration-tests

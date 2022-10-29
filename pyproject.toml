@@ -33,7 +33,9 @@ dynamic = ["version"]
 development = [
     "build",
     "flake8-black",
-    "pytest"
+    "mypy",
+    "pytest",
+    "types-PyYAML"
 ]
 
 [project.scripts]
