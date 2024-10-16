@@ -28,12 +28,10 @@ mypy:
   python -m mypy {{python_src}}
 
 # creates and publishes a release
-release: tests build
-  twine check {{build_dir}}/*
+release: tests
   git tag {{version}}
-  git push upstream main
+  git push upstream main:main
   git push upstream {{version}}
-  twine upload {{build_dir}}/*
 
 # runs all tests
 tests: lint mypy integration-tests

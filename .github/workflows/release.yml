@@ -1,0 +1,42 @@
+---
+
+name: Publish cff-from-621
+on:
+  push:
+    tags: ["*"]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+      - uses: hynek/build-and-inspect-python-package@v2
+
+  pypi:
+    name: Publish to the cheeseshop
+    needs: ["build", "qa"]
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/cff-from-621
+    permissions:
+      id-token: write
+
+    steps:
+      - name: Download package
+        uses: actions/download-artifact@v4
+        with:
+          name: Packages
+          path: dist
+      - name: Upload package to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+
+  qa:
+    uses: ./.github/workflows/qu.yml
+    with:
+      ref: ${{ github.ref }}
+
+...
