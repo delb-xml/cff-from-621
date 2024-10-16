@@ -35,7 +35,7 @@ jobs:
         uses: pypa/gh-action-pypi-publish@release/v1
 
   qa:
-    uses: ./.github/workflows/qu.yml
+    uses: ./.github/workflows/qa.yml
     with:
       ref: ${{ github.ref }}
 
