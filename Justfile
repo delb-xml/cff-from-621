@@ -4,7 +4,7 @@ default: tests
 
 build_dir := "dist"
 python_src := "cff_from_621 tests"
-version := `cat cff_from_621/version.py | cut -d ' ' -f 3`
+version := `head -n1 cff_from_621/version.py | cut -d ' ' -f 3`
 
 # applies black code style
 black:
