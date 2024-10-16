@@ -9,7 +9,7 @@ import yaml
 from cffconvert import Citation  # type: ignore
 from jsonschema.exceptions import ValidationError  # type: ignore
 
-try:  # DROPWITH Python3.9
+try:  # DROPWITH Python3.10
     import tomllib  # type: ignore
 except ImportError:
     import tomli as tomllib  # type: ignore

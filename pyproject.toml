@@ -4,7 +4,10 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "cff-from-621"
-description = "Generates metadata in the Citation File Format for Python projects from their PEP-621 compliant package definition. Includes a CLI."
+description = """
+    Generates metadata in the Citation File Format for Python projects from \
+    their PEP-621 compliant package definition. Includes a CLI. \
+"""
 keywords = ["PEP-621", "CFF", "conversion"]
 classifiers = [
     "Development Status :: 4 - Beta",
