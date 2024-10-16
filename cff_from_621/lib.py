@@ -3,7 +3,7 @@ from datetime import date
 from importlib import import_module
 from itertools import chain
 from pathlib import Path
-from typing import Any, Sequence
+from typing import Any, Final, Sequence
 
 import yaml
 from cffconvert import Citation  # type: ignore
@@ -14,10 +14,10 @@ try:  # DROPWITH Python3.9
 except ImportError:
     import tomli as tomllib  # type: ignore
 
-CONSIDERED_PROJECT_FIELDS = frozenset(
+CONSIDERED_PROJECT_FIELDS: Final = frozenset(
     ("authors", "description", "keywords", "license", "title", "urls", "version")
 )
-DEFAULT_FIELD_ORDER = (
+DEFAULT_FIELD_ORDER: Final = (
     "cff-version",
     "type",
     "title",
@@ -34,7 +34,7 @@ DEFAULT_FIELD_ORDER = (
 )
 
 
-log = logging.getLogger("cff_from_621")
+log: Final = logging.getLogger("cff_from_621")
 
 
 def generate_cff_contents(pyproject_contents: dict, pyproject_path: Path) -> dict:

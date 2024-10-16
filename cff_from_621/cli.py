@@ -3,17 +3,18 @@ import sys
 import logging
 from argparse import ArgumentParser, Namespace
 from pathlib import Path
+from typing import Final
 
 from cff_from_621.lib import generate_cff_file
 from cff_from_621.version import VERSION
 
-B_ = "\033[1m"
-_B = "\033[22m"
-U_ = "\033[4m"
-_U = "\033[24m"
+B_: Final = "\033[1m"
+_B: Final = "\033[22m"
+U_: Final = "\033[4m"
+_U: Final = "\033[24m"
 
-log = logging.getLogger("cff_from_621")
-console_handler = logging.StreamHandler(sys.stderr)
+log: Final = logging.getLogger("cff_from_621")
+console_handler: Final = logging.StreamHandler(sys.stderr)
 log.addHandler(console_handler)
 
 
