@@ -30,7 +30,7 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python-version }}
-      - uses: extractions/setup-just@v3
+      - uses: extractions/setup-just@v4
       - run: pip install .[development]
       - run: just integration-tests
 
